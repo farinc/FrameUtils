@@ -1,0 +1,16 @@
+[
+{
+  "modid": "framezaddon",
+  "name": "FrameUtils",
+  "description": "A Framez Addon for 1.7.10",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["farinc"],
+  "credits": "farinc",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["framez"]
+}
+]
