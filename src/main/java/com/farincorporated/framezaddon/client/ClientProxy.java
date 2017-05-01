@@ -35,6 +35,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler{
     @Override
     public void preinit(FMLPreInitializationEvent event) {
         super.preinit(event);
+        //I know, this is me being lazy
         LanguageRegistry.addName(framepiston, "Frame Piston");
         LanguageRegistry.addName(frametranslater, "Frame Translater");
         LanguageRegistry.addName(enderplate, "Focused Enderlocate Plate");
@@ -59,6 +60,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler{
     @Override
     public void postinit(FMLPostInitializationEvent event){
         super.postinit(event);
+        NEIntergration.postInitClient();
     }
 
     @Override

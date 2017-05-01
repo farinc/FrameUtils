@@ -1,5 +1,6 @@
 package com.farincorporated.framezaddon;
 
+import com.farincorporated.items.FocusedEnderlocatePlate;
 import com.farincorporated.framezaddon.handlers.FrameTranslaterStructureHandler;
 import com.farincorporated.framezaddon.handlers.FrameTranslaterMultiBlockHandler;
 import com.farincorporated.framezaddon.blocks.FrameTranslater;
@@ -23,6 +24,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -39,11 +41,12 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
  *
  * @author farincorporated
  */
-@Mod(modid = FramezAddon.MODID, name = "Framez Addon", version = FramezAddon.VERSION, dependencies="required-after:framez;after:CoFHCore;after:ThermalExpansion;after:ThermalFoundation")
+@Mod(modid = FramezAddon.MODID, name = FramezAddon.NAME, version = FramezAddon.VERSION, dependencies="required-after:framez;after:CoFHCore;after:ThermalExpansion;after:ThermalFoundation")
 public class FramezAddon {
     
-    public static final String MODID = "framezaddon";
-    public static final String VERSION = "1.0";
+    public static final String MODID = "frameutils";
+    public static final String NAME = "Frame Utils";
+    public static final String VERSION = "1.1";
     public static final String FRAMEZMODID = ModInfo.MODID;
     public static boolean isCofhLibloaded = false;
     public static boolean isThermalExpansionloaded = false;
@@ -70,14 +73,12 @@ public class FramezAddon {
         framepiston = new FramePiston().setBlockName("framepiston");
         framepistonext = new FramePistonExt().setBlockName("framepistonext");
         frametranslater = new FrameTranslater().setBlockName("frametranslater");
-        //debugitem = new DebugItem().setUnlocalizedName("debugitem");
         enderplate = new FocusedEnderlocatePlate().setUnlocalizedName("enderplate");
         
         GameRegistry.registerBlock(framepiston, "framepiston");
         GameRegistry.registerBlock(framepistonext, "framepistonext");
         GameRegistry.registerBlock(frametranslater, "frametranslater");
         
-        //GameRegistry.registerItem(debugitem, "debugitem");
         GameRegistry.registerItem(enderplate, "enderplate");
                
         //tiles
@@ -85,15 +86,9 @@ public class FramezAddon {
         GameRegistry.registerTileEntity(TileFramePistonExt.class, "tileframepistonext");
         GameRegistry.registerTileEntity(TileFrameTranslater.class, "tileframetranslater");
         
-        if(Loader.isModLoaded("CoFHCore")){
-            isCofhLibloaded = true;
-        }
-        if(Loader.isModLoaded("ThermalExpansion")){
-            isThermalExpansionloaded = true;
-        }
-        if(Loader.isModLoaded("ThermalFoundation")){
-            isThermalFoundationloaded = true;
-        }
+        isCofhLibloaded = Loader.isModLoaded("CoFHCore");
+        isThermalExpansionloaded = Loader.isModLoaded("ThermalExpansion");
+        isThermalFoundationloaded = Loader.isModLoaded("ThermalFoundation");
         
         proxy.preinit(event);
     }
@@ -104,6 +99,11 @@ public class FramezAddon {
         this.addRecipes();
         this.addFrameHandlers();
         proxy.init(event);
+    }
+    
+    @EventHandler
+    private void postInit(FMLPostInitializationEvent event){
+        proxy.postinit(event);
     }
 
     private void addRecipes(){

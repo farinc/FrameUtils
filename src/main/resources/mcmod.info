@@ -1,6 +1,6 @@
 [
 {
-  "modid": "framezaddon",
+  "modid": "frameutils",
   "name": "FrameUtils",
   "description": "A Framez Addon for 1.7.10",
   "version": "${version}",
