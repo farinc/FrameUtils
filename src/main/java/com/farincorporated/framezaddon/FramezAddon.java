@@ -1,6 +1,6 @@
 package com.farincorporated.framezaddon;
 
-import com.farincorporated.frameaddon.items.FocusedEnderlocatePlate;
+import com.farincorporated.framezaddon.items.FocusedEnderlocatePlate;
 import com.farincorporated.framezaddon.handlers.FrameTranslaterStructureHandler;
 import com.farincorporated.framezaddon.handlers.FrameTranslaterMultiBlockHandler;
 import com.farincorporated.framezaddon.blocks.FrameTranslater;

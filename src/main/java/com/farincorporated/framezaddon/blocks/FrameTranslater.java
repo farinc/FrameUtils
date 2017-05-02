@@ -13,7 +13,6 @@ import com.amadornes.framez.modifier.ModifierRegistry;
 import com.amadornes.trajectory.api.vec.BlockPos;
 import com.amadornes.trajectory.movement.MovingBlock;
 import com.farincorporated.framezaddon.FramezAddon;
-import com.farincorporated.framezaddon.tile.TileFramePiston;
 import com.farincorporated.framezaddon.tile.TileFrameTranslater;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -164,7 +163,6 @@ public class FrameTranslater extends BlockContainer implements IFrameBlock{
         
         ForgeDirection face = ForgeDirection.getOrientation(t);
         tile.setDirection(face);
-        System.out.println(face);
     }
     
     @Override
