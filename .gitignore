@@ -2,5 +2,6 @@
 /libs/
 /eclipse/
 /gradle/
+/.gradle/
 /build/
 /.nb-gradle/
