@@ -7,9 +7,7 @@ package com.farincorporated.frameutils.client;
 
 import com.farincorporated.frameutils.client.gui.GUIFrameField;
 import com.farincorporated.frameutils.FramezAddon;
-import static com.farincorporated.frameutils.FramezAddon.enderplate;
-import static com.farincorporated.frameutils.FramezAddon.framepiston;
-import static com.farincorporated.frameutils.FramezAddon.frametranslater;
+import static com.farincorporated.frameutils.FramezAddon.*;
 import com.farincorporated.frameutils.client.rendering.FramePistonRenderer;
 import com.farincorporated.frameutils.client.rendering.FrameTranslaterRenderer;
 import com.farincorporated.frameutils.tile.TileFramePiston;
@@ -39,6 +37,9 @@ public class ClientProxy extends CommonProxy implements IGuiHandler{
         LanguageRegistry.addName(framepiston, "Frame Piston");
         LanguageRegistry.addName(frametranslater, "Frame Translater");
         LanguageRegistry.addName(enderplate, "Focused Enderlocate Plate");
+        LanguageRegistry.addName(reactortranslater, "Reactor Moumentum Frame");
+        LanguageRegistry.addName(turbinetranslater, "Turbine Moumentum Frame");
+        LanguageRegistry.addName(alvearytranslater, "Alveary Moumentum Frame");
         
         //renderers
         FramePistonRenderer pistonrenderer = new FramePistonRenderer();

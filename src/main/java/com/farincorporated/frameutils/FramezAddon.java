@@ -1,5 +1,11 @@
 package com.farincorporated.frameutils;
 
+import com.farincorporated.frameutils.tile.TileAlvearyTranslater;
+import com.farincorporated.frameutils.blocks.AlvearyTranslater;
+import com.farincorporated.frameutils.blocks.BlockTurbineTranslater;
+import com.farincorporated.frameutils.tile.TileTurbineTranslater;
+import com.farincorporated.frameutils.tile.TileReactorTranslater;
+import com.farincorporated.frameutils.blocks.BlockReactorTranslater;
 import com.farincorporated.frameutils.items.FocusedEnderlocatePlate;
 import com.farincorporated.frameutils.handlers.FrameTranslaterStructureHandler;
 import com.farincorporated.frameutils.handlers.FrameTranslaterMultiBlockHandler;
@@ -9,7 +15,6 @@ import com.farincorporated.frameutils.tile.TileFramePistonExt;
 import com.amadornes.framez.api.movement.IFrameMaterial;
 import com.amadornes.framez.block.BlockFrame;
 import com.amadornes.framez.init.FramezBlocks;
-import com.amadornes.framez.init.FramezCreativeTab;
 import com.amadornes.framez.modifier.FrameFactory;
 import com.amadornes.framez.modifier.ModifierRegistry;
 import com.amadornes.framez.movement.MovementRegistry;
@@ -33,6 +38,7 @@ import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import forestry.api.core.ForestryAPI;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.block.Block;
@@ -41,13 +47,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 
 /**
  *
  * @author farincorporated
  */
-@Mod(modid = FramezAddon.MODID, name = FramezAddon.NAME, version = FramezAddon.VERSION, dependencies="required-after:framez;after:CoFHCore;after:ThermalExpansion;after:ThermalFoundation")
+@Mod(modid = FramezAddon.MODID, name = FramezAddon.NAME, version = FramezAddon.VERSION, dependencies="required-after:framez;after:CoFHCore;after:ThermalExpansion;after:ThermalFoundation;after:BigReactors;after:Forestry")
 public class FramezAddon {
     
     public static final String MODID = "frameutils";
@@ -57,6 +64,8 @@ public class FramezAddon {
     public static boolean isCofhLibloaded = false;
     public static boolean isThermalExpansionloaded = false;
     public static boolean isThermalFoundationloaded = false;
+    public static boolean isBigReactorsloaded = false;
+    public static boolean isForestryloaded = false;
     
     public static final Map<String, ItemStack> pistons = Maps.newHashMap();
     public static final Map<String, ItemStack> translaters = Maps.newHashMap();
@@ -95,6 +104,14 @@ public class FramezAddon {
                 list.add(entry.getValue());
             }
             list.add(new ItemStack(enderplate));
+            
+            if(isBigReactorsloaded){
+                list.add(new ItemStack(reactortranslater));
+                list.add(new ItemStack(turbinetranslater));
+            }
+            if(isForestryloaded){
+                list.add(new ItemStack(alvearytranslater));
+            }
         }
     };
     
@@ -103,6 +120,9 @@ public class FramezAddon {
     public static Block framepiston;
     public static Block framepistonext;
     public static Block frametranslater;
+    public static Block reactortranslater;
+    public static Block turbinetranslater;
+    public static Block alvearytranslater;
     
     public static Item debugitem;
     public static Item enderplate;
@@ -129,6 +149,22 @@ public class FramezAddon {
         isCofhLibloaded = Loader.isModLoaded("CoFHCore");
         isThermalExpansionloaded = Loader.isModLoaded("ThermalExpansion");
         isThermalFoundationloaded = Loader.isModLoaded("ThermalFoundation");
+        isBigReactorsloaded = Loader.isModLoaded("BigReactors");
+        isForestryloaded = Loader.isModLoaded("Forestry");
+        
+        if(isBigReactorsloaded){
+            reactortranslater = new BlockReactorTranslater().setBlockName("reactortranslater");
+            turbinetranslater = new BlockTurbineTranslater().setBlockName("turbinetranslater");
+            GameRegistry.registerBlock(reactortranslater, "reactortranslater");
+            GameRegistry.registerBlock(turbinetranslater, "turbinetranslater");
+            GameRegistry.registerTileEntity(TileReactorTranslater.class, "tilereactortranslater");
+            GameRegistry.registerTileEntity(TileTurbineTranslater.class, "tileturbinetranslater");
+        }
+        if(isForestryloaded){
+            alvearytranslater = new AlvearyTranslater().setBlockName("alvearytranslater");
+            GameRegistry.registerBlock(alvearytranslater, "alvearytranslater");
+            GameRegistry.registerTileEntity(TileAlvearyTranslater.class, "tilealvearytranslater");
+        }
         
         proxy.preinit(event);
     }
@@ -172,6 +208,23 @@ public class FramezAddon {
             );
         }
         
+        for(IFrameMaterial mat : ModifierRegistry.instance.frameMaterials){
+            if(isBigReactorsloaded){
+                GameRegistry.addRecipe(new ShapelessOreRecipe(reactortranslater,
+                    "reactorCasing", FramezBlocks.frames.get(FrameFactory.getIdentifier("frame0", mat))
+                ));
+                GameRegistry.addRecipe(new ShapelessOreRecipe(turbinetranslater,
+                    "turbineHousing", FramezBlocks.frames.get(FrameFactory.getIdentifier("frame0", mat))
+                ));
+            }
+            if(isForestryloaded){
+                ItemStack stack = GameRegistry.findItemStack("Forestry", "alveary", 1);
+                GameRegistry.addShapelessRecipe(new ItemStack(alvearytranslater), 
+                    stack, 
+                    FramezBlocks.frames.get(FrameFactory.getIdentifier("frame0", mat)
+                ));
+            }
+        }
         //pisotons and translaters
         
         BlockFrame frame;
@@ -209,7 +262,7 @@ public class FramezAddon {
         }
     }
     
-    private void addFrameHandlers(){
+    private void addFrameHandlers() {
         MovementRegistry.instance.registerMultiblockMovementHandler(new FrameTranslaterMultiBlockHandler());
         MovementRegistry.instance.registerStructureMovementHandler(new FrameTranslaterStructureHandler());
     }

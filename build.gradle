@@ -44,7 +44,9 @@ dependencies {
     compile files("libs/ThermalExpansion-[1.7.10]4.1.5-248.jar")
     compile files("libs/ThermalFoundation-[1.7.10]1.2.6-118.jar")
     compile files("libs/Trajectory-1.7.10-0.1.2-universal.jar")
-    compile files("libs/Framez2-1.7.10-0.1.1-hotfix-universal.jar")
+    compile files("libs/framez-0.1.2.jar")
+    compile files("libs/BigReactors-0.4.3A.jar")
+    compile files("libs/forestry_1.7.10-4.2.16.64.jar")
 }
 
 processResources
